@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy LVQ Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="copyToClipboard()">Copy LVQ Program to Clipboard</button>
+
+    <script>
+        function copyToClipboard() {
+            const code = `import math
+
+class LVQ:
+    def winner(self, weights, sample):
+        D0 = sum([(sample[i] - weights[0][i])**2 for i in range(len(sample))])
+        D1 = sum([(sample[i] - weights[1][i])**2 for i in range(len(sample))])
+        return 0 if D0 < D1 else 1
+
+    def update(self, weights, sample, J, alpha, actual):
+        for i in range(len(weights[J])):
+            adjustment = alpha * (sample[i] - weights[J][i])
+            weights[J][i] += adjustment if actual == J else -adjustment
+
+def main():
+    X = [[0, 0, 1, 1], [1, 0, 0, 0], [0, 0, 0, 1], [0, 1, 1, 0], [1, 1, 0, 0], [1, 1, 1, 0]]
+    Y = [0, 1, 0, 1, 1, 1]
+
+    weights = [X.pop(0), X.pop(0)]
+    Y.pop(0); Y.pop(0)
+
+    lvq = LVQ()
+    for _ in range(3):  # epochs
+        for j in range(len(X)):
+            J = lvq.winner(weights, X[j])
+            lvq.update(weights, X[j], J, 0.1, Y[j])
+
+    T = [0, 0, 1, 0]
+    print("Sample T belongs to class:", lvq.winner(weights, T))
+    print("Trained weights:", weights)
+
+if __name__ == "__main__":
+    main()`;
+            
+            const tempInput = document.createElement("textarea");
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("LVQ program copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
